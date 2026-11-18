@@ -1,0 +1,272 @@
+/* ================================================================
+   NAVBAR — Apple · Linear inspired
+   Transparent → frosted-glass on scroll
+================================================================ */
+
+/* ── Wrapper (fixed header) ────────────────────────────────── */
+.navbar-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  border-bottom: 1px solid transparent;
+  transition:
+    background   0.4s cubic-bezier(0.4,0,0.2,1),
+    border-color 0.4s cubic-bezier(0.4,0,0.2,1),
+    backdrop-filter 0.4s;
+}
+
+.navbar-wrap--scrolled {
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+}
+
+/* ── Inner nav bar ─────────────────────────────────────────── */
+.navbar {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ── Logo ──────────────────────────────────────────────────── */
+.navbar__logo {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  margin-right: auto;        /* pushes links & CTA to the right */
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.navbar__logo:hover { opacity: 0.75; }
+
+.navbar__logo-dot { color: #38bdf8; }
+
+/* ── Desktop links ─────────────────────────────────────────── */
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0; padding: 0;
+}
+
+.navbar__link {
+  position: relative;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #71717a;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+
+/* Underline indicator */
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: #38bdf8;
+  border-radius: 1px;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar__link:hover {
+  color: #e4e4e7;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.navbar__link--active {
+  color: #ffffff;
+}
+
+.navbar__link--active::after { width: 60%; }
+
+/* ── Desktop CTA ───────────────────────────────────────────── */
+.navbar__cta {
+  margin-left: 0.5rem;
+}
+
+/* ── Mobile toggle button ──────────────────────────────────── */
+.navbar__mobile-btn {
+  display: none;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #71717a;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.navbar__mobile-btn:hover {
+  color: #e4e4e7;
+  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.04);
+}
+
+.navbar__mobile-btn--open {
+  color: #38bdf8;
+  border-color: rgba(56,189,248,0.4);
+}
+
+.navbar__mobile-label { pointer-events: none; }
+
+/* ================================================================
+   MOBILE OVERLAY — Full-screen dark panel
+================================================================ */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: stretch;
+  /* Hidden state */
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.mobile-overlay--open {
+  pointer-events: all;
+  visibility: visible;
+}
+
+/* Dark backdrop */
+.mobile-overlay__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-overlay--open .mobile-overlay__backdrop { opacity: 1; }
+
+/* Nav panel — slides in from right */
+.mobile-overlay__nav {
+  position: relative;
+  margin-left: auto;
+  width: min(360px, 100%);
+  height: 100%;
+  background: #080c14;
+  border-left: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 2.5rem 3rem;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-overlay--open .mobile-overlay__nav {
+  transform: translateX(0);
+}
+
+/* Links list */
+.mobile-overlay__links {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mobile-overlay__item {
+  opacity: 0;
+  transform: translateX(20px);
+  transition:
+    opacity  0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(0.1s + var(--item-index, 0) * 0.06s);
+}
+
+.mobile-overlay--open .mobile-overlay__item {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mobile-overlay__link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #52525b;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: color 0.2s;
+}
+
+.mobile-overlay__link:hover,
+.mobile-overlay__link--active { color: #ffffff; }
+
+.mobile-overlay__num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #38bdf8;
+  opacity: 0.7;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  flex-shrink: 0;
+  width: 2rem;
+}
+
+/* Footer email */
+.mobile-overlay__footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.mobile-overlay__email {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: #52525b;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+
+.mobile-overlay__email:hover { color: #38bdf8; }
+
+/* ================================================================
+   RESPONSIVE — Show mobile btn, hide desktop links
+================================================================ */
+@media (max-width: 768px) {
+  .navbar__links,
+  .navbar__cta  { display: none; }
+
+  .navbar__mobile-btn { display: block; }
+}
+
+/* ================================================================
+   REDUCED MOTION
+================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .navbar-wrap,
+  .mobile-overlay__nav,
+  .mobile-overlay__backdrop,
+  .mobile-overlay__item,
+  .navbar__link,
+  .navbar__link::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

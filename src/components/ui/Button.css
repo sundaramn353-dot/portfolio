@@ -1,0 +1,81 @@
+/* ================================================================
+   BUTTON — Reusable
+================================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background   0.22s cubic-bezier(0.16,1,0.3,1),
+    color        0.22s cubic-bezier(0.16,1,0.3,1),
+    border-color 0.22s cubic-bezier(0.16,1,0.3,1),
+    transform    0.22s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow   0.22s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* ── Sizes ─────────────────────────────────────────────────── */
+.btn--sm  { font-size: 0.8125rem; padding: 0.45rem 1.1rem;  border-radius: 8px; }
+.btn--md  { font-size: 0.9375rem; padding: 0.75rem 1.75rem; border-radius: 10px; }
+.btn--lg  { font-size: 1.0625rem; padding: 0.9rem  2.25rem; border-radius: 12px; }
+
+/* ── Variants ──────────────────────────────────────────────── */
+
+/* Primary — white fill, dark text */
+.btn--primary {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.1);
+}
+.btn--primary:hover {
+  background: #38bdf8;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(56,189,248,0.3);
+}
+.btn--primary:active { transform: translateY(0); }
+
+/* Ghost — transparent, muted text */
+.btn--ghost {
+  background: transparent;
+  color: #71717a;
+  border: 1px solid rgba(255,255,255,0.14);
+}
+.btn--ghost:hover {
+  color: #e4e4e7;
+  border-color: rgba(255,255,255,0.25);
+  transform: translateY(-2px);
+}
+.btn--ghost:active { transform: translateY(0); }
+
+/* Outline — border accent */
+.btn--outline {
+  background: transparent;
+  color: #a1a1aa;
+  border: 1px solid rgba(255,255,255,0.14);
+}
+.btn--outline:hover {
+  background: #6366f1;
+  color: #ffffff;
+  border-color: #6366f1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(99,102,241,0.35);
+}
+.btn--outline:active { transform: translateY(0); }
+
+/* ── Accessibility ─────────────────────────────────────────── */
+.btn:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+}
