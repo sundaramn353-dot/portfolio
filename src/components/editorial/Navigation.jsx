@@ -9,15 +9,29 @@ export default function Navigation() {
   const menuButton = useRef(null);
 
   useEffect(() => {
-    if (!window.IntersectionObserver) return;
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id === 'home' ? '' : entry.target.id); });
-    }, { rootMargin: '-15% 0px -45% 0px', threshold: 0 });
-    ['home', ...navigation.map(item => item.id)].forEach(id => {
-      const section = document.getElementById(id);
-      if (section) observer.observe(section);
-    });
-    return () => observer.disconnect();
+    const sections = ['home', 'statement', ...navigation.map(item => item.id)]
+      .map(id => document.getElementById(id)).filter(Boolean);
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const scrollPadding = parseFloat(window.getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      const anchorMargin = parseFloat(window.getComputedStyle(sections[0]).scrollMarginTop) || 0;
+      const marker = Math.max((header.current?.getBoundingClientRect().bottom || 92) + 32, scrollPadding + anchorMargin + 2);
+      const current = sections.filter(section => section.getBoundingClientRect().top <= marker).at(-1);
+      const atBottom = window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+      setActive(atBottom ? 'contact' : ['home', 'statement'].includes(current?.id) ? '' : current?.id || '');
+    };
+    const request = () => { if (!frame) frame = requestAnimationFrame(update); };
+    request();
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request, { passive: true });
+    window.addEventListener('hashchange', request);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', request);
+      window.removeEventListener('resize', request);
+      window.removeEventListener('hashchange', request);
+    };
   }, []);
 
   useEffect(() => {
@@ -52,7 +66,7 @@ export default function Navigation() {
 
   return (
     <header ref={header} className={`floating-header ${open ? 'menu-open' : ''}`}>
-      <a className="wordmark" href="#home" onClick={navigate} aria-label="Meenatchi Sundaram, home">m<span className="brand-dot">.</span></a>
+      <a className="wordmark" href="#home" onClick={navigate} aria-label="Meenatchi Sundaram, home"><span className="wordmark-glyph" aria-hidden="true">m<span className="brand-dot">.</span></span></a>
       <nav id="main-navigation" aria-label="Main navigation" className={`navigation ${open ? 'is-open' : ''}`}>
         {navigation.map(item => (
           <a key={item.id} href={`#${item.id}`} onClick={navigate} className={active === item.id ? 'active' : ''} aria-current={active === item.id ? 'location' : undefined}>{item.label}</a>

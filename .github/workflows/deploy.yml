@@ -7,35 +7,43 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
+    permissions:
+      contents: read
+      pages: read
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 24
+          cache: npm
+          cache-dependency-path: src/package-lock.json
       - name: Install dependencies
-        run: npm install --prefix src
+        run: npm ci --prefix src
+      - name: Check portfolio interactions
+        run: node --test src/tests/*.test.mjs
       - name: Build portfolio
-        run: npm run build
+        run: npm run build:pages
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload site
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: src/dist
 
   deploy:
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -6,9 +6,10 @@ export const portrait = {
 };
 
 export const navigation = [
+  { id: 'skills', label: 'Skills' },
   { id: 'work', label: 'Work' },
   { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
+  { id: 'training-community', label: 'Training' },
   { id: 'experience', label: 'Experience' },
   { id: 'contact', label: 'Contact' },
 ];

@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "npm --prefix src run dev",
-    "build": "npm --prefix src run build",
+    "build": "npm --prefix src run build && node scripts/prepare-sites-output.mjs",
+    "build:pages": "npm --prefix src run build -- --mode github-pages",
     "preview": "npm --prefix src run preview"
   }
 }

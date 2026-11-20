@@ -18,9 +18,9 @@ npm run build
 npm run preview
 ```
 
-Production output is `src/dist`. The existing Vite configuration, React stack, and relative deployment base remain in place. No additional dependencies or hosting integrations were added. Nothing was deployed.
+Production output is `src/dist`. `npm run build` retains the relative base for ChatGPT Sites and mirrors the output to `dist`. `npm run build:pages` uses the `/portfolio/` base for GitHub Pages. See [deployment notes](docs/deployment.md) for the two independent publishing paths.
 
-There are no configured lint, TypeScript, or test scripts. Build validation uses `npm run build`.
+There are no configured lint or TypeScript scripts. Run the interaction checks with `node --test src/tests/*.test.mjs`.
 
 ## Personal portrait
 
