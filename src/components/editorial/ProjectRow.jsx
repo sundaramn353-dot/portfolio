@@ -22,7 +22,7 @@ export default function ProjectRow({ project }) {
   return (
     <article className={`project${project.compact ? ' project--compact' : ''}`} id={project.id} aria-labelledby={headingId}>
       <ProjectMedia {...project} />
-      <div className="project-copy" data-reveal data-delay="90">
+      <div className="project-copy">
         {project.discipline && <span className="eyebrow project-category">{project.discipline}</span>}
         <h3 id={headingId}>{project.name}</h3>
         {project.compact && project.robotName && project.company ? (
@@ -50,7 +50,7 @@ export default function ProjectRow({ project }) {
               {project.contributionDetails?.length > 0 && <><h4>Detailed contributions</h4><ul className="project-contribution-details">{project.contributionDetails.map(item => <li key={item}>{item}</li>)}</ul></>}
               {project.architecture && <><h4>System overview</h4><p className="system-flow">{project.architecture}</p></>}
               {project.showArchitecture && <div className="detail-architecture"><Architecture /></div>}
-              {project.supportingImage && <figure><img src={project.supportingImage} alt={project.supportingCaption} loading="lazy" /><figcaption>{project.supportingCaption}</figcaption></figure>}
+              {project.supportingImage && <ProjectMedia image={project.supportingImage} alt={project.supportingCaption} caption={project.supportingCaption} />}
             </div>
           </details>
         )}

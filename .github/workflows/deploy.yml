@@ -28,11 +28,13 @@ jobs:
           cache: npm
           cache-dependency-path: src/package-lock.json
       - name: Install dependencies
-        run: npm ci --prefix src
+        working-directory: src
+        run: npm ci
       - name: Check portfolio interactions
         run: node --test src/tests/*.test.mjs
       - name: Build portfolio
-        run: npm run build:pages
+        working-directory: src
+        run: npm run build -- --mode github-pages
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload site

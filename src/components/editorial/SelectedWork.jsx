@@ -4,7 +4,7 @@ import ProjectRow from './ProjectRow.jsx';
 
 export default function SelectedWork() {
   return (
-    <section className="work-section light-section section-space" id="work" tabIndex={-1} aria-labelledby="work-heading">
+    <section className="work-section surface-section section-space" id="work" tabIndex={-1} aria-labelledby="work-heading">
       <div className="wrap">
         <div className="work-heading" data-reveal>
           <p className="work-label">SELECTED WORK</p>
